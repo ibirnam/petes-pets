@@ -58,11 +58,8 @@ module.exports = (app) => {
 
   // SEARCH PET
   app.get('/search', (req, res) => {
-    // res.render('pets-index', { pets: [0] });
     term = new RegExp(req.query.term, 'i')
-    // Pet.find({ 'name': term }).exec((err, pets) => {
-    //   res.render('pets-index', { pets: pets });
-    // })
+
     Pet.find({
       $or: [
         { 'name': term },
@@ -73,3 +70,7 @@ module.exports = (app) => {
     })
   });
 }
+
+
+// Pet.paginate({}, {page: page}).then((results) => {
+//   res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
