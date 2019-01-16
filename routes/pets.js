@@ -80,33 +80,39 @@ module.exports = (app) => {
     // Get the payment token ID submitted by the form:
     const token = req.body.stripeToken; // Using Express
 
-    const charge = stripe.charges.create({
-      amount: 999,
-      currency: 'usd',
-      description: 'Example charge',
-      source: token,
-    }).then(() => {
-      const user = {
-        email: req.body.stripeEmail
-      };
-
-      nodemailerMailgun.sendMail({
-        from: 'no-reply@example.com',
-        to: user.email, // An array if you have multiple recipients.
-        subject: 'Pet Purchased!',
-        template: {
-          name: 'email.handlebars',
-          engine: 'handlebars',
-          context: user
-        }
-      }).then(info => {
-        console.log('Response: ' + info);
-        res.redirect(`/pets/${req.params.id}`);
-      }).catch(err => {
-        console.log('Error: ' + err);
-        res.redirect(`/pets/${req.params.id}`);
-      });
-    });
+    Pet.findById(req.body.petId).exec((err, pet) => {
+      const charge = stripe.charges.create({
+        amount: pet.price * 100,
+        currency: 'usd',
+        description: `Purchased ${pet.name}, ${pet.species}`,
+        source: token,
+      }).then((chg) => {
+        const user = {
+          email: req.body.stripeEmail,
+          amount: chg.amount,
+          petName: pet.name
+        };
+        nodemailerMailgun.sendMail({
+          from: 'no-reply@example.com',
+          to: user.email, // An array if you have multiple recipients.
+          subject: 'Pet Purchased!',
+          template: {
+            name: 'email.handlebars',
+            engine: 'handlebars',
+            context: user
+          }
+        }).then(info => {
+          console.log('Response: ' + info);
+          res.redirect(`/pets/${req.params.id}`);
+        }).catch(err => {
+          console.log('Error: ' + err);
+          res.redirect(`/pets/${req.params.id}`);
+        });
+      })
+        .catch(err => {
+          console.log('Error: ' + err);
+        });
+    })
   });
 
   // SEARCH PET
@@ -151,7 +157,7 @@ module.exports = (app) => {
   //   { page: page }).then((results) => {
   //     res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
   //   });
-// });
+  // });
 }
 
 // const page = req.query.page || 1
