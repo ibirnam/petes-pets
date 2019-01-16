@@ -20,7 +20,12 @@ module.exports = (app) => {
     Pet.paginate({}, {page: page}).then((results) => {
       // res.render('pets-index', { pets: results.docs });    
       // res.render('pets-index', { pets: results.docs, pagesCount: results.pages });
-      res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
+      if (req.header('Content-Type') == 'application/json') {
+        return res.json({ pets: results.docs, pagesCount: results.pages, currentPage: page });
+      } else {
+        // return res.render('pets-index', { pets: pets });
+        res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
+      }
     });
   });
 }

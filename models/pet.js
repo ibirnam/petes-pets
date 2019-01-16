@@ -24,6 +24,6 @@ const PetSchema = new Schema({
 
 PetSchema.plugin(mongoosePaginate);
 
-PetSchema.index({ name: 'text', species: 'text', favoriteFood: 'text', description: 'text' });
+// PetSchema.index({ name: 'text', species: 'text', favoriteFood: 'text', description: 'text' });
 
 module.exports = mongoose.model('Pet', PetSchema);
