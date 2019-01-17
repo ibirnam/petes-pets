@@ -126,7 +126,7 @@ module.exports = (app) => {
       }).then((chg) => {
         const user = {
           email: req.body.stripeEmail,
-          amount: chg.amount,
+          amount: chg.amount / 100,
           petName: pet.name
         };
         nodemailerMailgun.sendMail({
