@@ -55,7 +55,7 @@ module.exports = (app) => {
     var pet = new Pet(req.body);
     pet.save(function (err) {
       if (req.file) {
-        client.upload(req.file.path, {}, function (err, versions, meta) {
+        client.upload(req.file.path, {}, (err, versions, meta) => {
           if (err) { return res.status(400).send({ err: err }) };
 
           versions.forEach(function (image) {
@@ -66,16 +66,12 @@ module.exports = (app) => {
             pet.save();
           });
 
-          res.send({ pet: pet });
+          return res.send({ pet: pet });
         });
       } else {
-        res.send({ pet: pet });
+        return res.send({ pet: pet });
       }
     })
-    .catch((err) => {
-      // STATUS OF 400 FOR VALIDATIONS
-      res.status(400).send(err.errors);
-    });
   })
 
   // SHOW PET
