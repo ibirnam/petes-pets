@@ -153,36 +153,9 @@ module.exports = (app) => {
   });
 
   // SEARCH PET
-  // app.get('/search', function (req, res) {
-  //   Pet
-  //     .find(
-  //       { $text: { $search: req.query.term } },
-  //       { score: { $meta: "textScore" } }
-  //     )
-  //     .sort({ score: { $meta: 'textScore' } })
-  //     .limit(20)
-  //     .exec(function (err, pets) {
-  //       if (err) { return res.status(400).send(err) }
-
-  //       if (req.header('Content-Type') == 'application/json') {
-  //         return res.json({ pets: pets });
-  //       } else {
-  //         return res.render('pets-index', { pets: pets, term: req.query.term });
-  //       }
-  //     });
-  // });
   app.get('/search', (req, res) => {
 
     const term = new RegExp(req.query.term, 'i')
-    //   Pet.find({
-    //     $or: [
-    //       { 'name': term },
-    //       { 'species': term }
-    //     ]
-    //   }).exec((err, pets) => {
-    //     res.render('pets-index', { pets: pets });
-    //   });
-    // });
 
     const page = req.query.page || 1
     Pet.paginate(
@@ -197,7 +170,3 @@ module.exports = (app) => {
       });
   });
 }
-
-// const page = req.query.page || 1
-// Pet.paginate({}, {page: page}).then((results) => {
-//   res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
