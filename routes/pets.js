@@ -117,7 +117,11 @@ module.exports = (app) => {
     // Get the payment token ID submitted by the form:
     const token = req.body.stripeToken; // Using Express
 
-    Pet.findById(req.body.petId).exec((err, pet) => {
+    // req.body.petId can become null through seeding,
+    // this way we'll insure we use a non-null value
+    let petId = req.body.petId || req.params.id;
+
+    Pet.findById(petId).exec((err, pet) => {
       if (err) {
         console.log('Error: ' + err);
         res.redirect(`/pets/${req.params.id}`);
