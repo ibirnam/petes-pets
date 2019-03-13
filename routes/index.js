@@ -16,8 +16,8 @@ module.exports = (app) => {
   // });
   app.get('/', (req, res) => {
     const page = req.query.page || 1
-  
-    Pet.paginate({}, {page: page}).then((results) => {
+
+    Pet.paginate({}, { page: page }).then((results) => {
       // res.render('pets-index', { pets: results.docs });    
       // res.render('pets-index', { pets: results.docs, pagesCount: results.pages });
       if (req.header('Content-Type') == 'application/json') {
