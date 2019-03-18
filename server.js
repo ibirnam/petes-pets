@@ -16,39 +16,6 @@ const app = express();
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/petes-pets');
 
-// const nodemailer = require('nodemailer');
-// const mg = require('nodemailer-mailgun-transport');
-
-// const auth = {
-//   auth: {
-//     api_key: process.env.MAILGUN_API_KEY,
-//     domain: process.env.EMAIL_DOMAIN
-//   }
-// }
-
-// const nodemailerMailgun = nodemailer.createTransport(mg(auth));
-
-// const user = {
-//   email: 'ian@makeschool.com',
-//   name: 'Emily',
-//   age: '43'
-// };
-
-// nodemailerMailgun.sendMail({
-//   from: 'no-reply@example.com',
-//   to: user.email, // An array if you have multiple recipients.
-//   subject: 'Hey you, awesome!',
-//   template: {
-//     name: 'email.handlebars',
-//     engine: 'handlebars',
-//     context: user
-//   }
-// }).then(info => {
-//   console.log('Response: ' + info);
-// }).catch(err => {
-//   console.log('Error: ' + err);
-// });
-
 app.locals.PUBLIC_STRIPE_API_KEY = process.env.PUBLIC_STRIPE_API_KEY;
 
 // view engine setup
