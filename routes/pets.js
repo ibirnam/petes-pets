@@ -1,7 +1,7 @@
 // MODELS
 const Pet = require('../models/pet');
 
-const utilMailer = require('../utils/mail');
+const mailer = require('../utils/mailer');
 
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -128,7 +128,7 @@ module.exports = (app) => {
           petName: pet.name
         };
         // Call our mail handler to manage sending emails
-        utilMailer(user, req, res);
+        mailer.sendMail(user, req, res);
       })
       .catch(err => {
         console.log('Error: ' + err);

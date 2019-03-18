@@ -14,7 +14,7 @@ const auth = {
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 // export our send mail function
-module.exports = (user, req, res) => {
+module.exports.sendMail = (user, req, res) => {
     // send an email to the user's email with a provided template
     nodemailerMailgun.sendMail({
         from: 'no-reply@example.com',
